@@ -81,7 +81,28 @@ public class Test {
 		c1.getCenter().setX(r1.area() - l1.getStartPoint().getY());	
 		System.out.println("Centar kruga c1: (" + c1.getCenter().getX() 
 				+ "," + c1.getCenter().getY() + ")" );
-
+		
+		
+		//Vežbe 4
+		
+		System.out.println(point1);
+		System.out.println(l1);
+		System.out.println(c1);
+		System.out.println(r1);
+		
+		int a  = 5; //int - primitivni tip podataka
+		int b  = 5;
+		System.out.println(a == b); //poredjenje po vrednosti
+		
+		String s1 = new String("Hello");
+		String s2 = new String("Hello");
+		System.out.println(s1 == s2);  //poredjenje po referenci
+		System.out.println(s1.equals(s2)); //poredjenje po vrednosti
+		
+		Point p3 = new Point(23,5);
+		System.out.println(point1 == p3);  //poredjenje po referenci
+		System.out.println(point1.equals(p3)); //poredjenje po vrednosti
+		
 	}
 
 }
