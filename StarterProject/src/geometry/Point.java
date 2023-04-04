@@ -1,11 +1,12 @@
 package geometry;
 
-public class Point {
+import java.awt.Graphics;
+
+public class Point extends Shape {
 
 	private int x;
 	private int y;
-	private boolean selected;
-	
+		
 	public Point()  {
 		
 	}
@@ -60,10 +61,13 @@ public class Point {
 	public void setY(int novoY) {
 		y = novoY;
 	}
-	public boolean isSelected() {
-		return selected;
+
+	@Override
+	public void draw(Graphics g) {
+		//tacku predstavljam kao +
+		g.drawLine(x-2,y, x+2,y); //horizontalna linija
+		g.drawLine(x, y-2, x, y+2); //vertikalna linija
+			
 	}
-	public void setSelected(boolean novoSelected) {
-		selected = novoSelected;
-	}
+
 }

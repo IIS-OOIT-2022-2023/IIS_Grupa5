@@ -15,7 +15,7 @@ public class Test {
 		
 		System.out.println("X koordinata: " + point1.getX());  
 		System.out.println("Y koordinata: " + point1.getY());  
-		System.out.println("Selected: " + point1.isSelected());
+
 		
 		double distanceResult = point1.distance(8,7);
 		System.out.println(distanceResult);
