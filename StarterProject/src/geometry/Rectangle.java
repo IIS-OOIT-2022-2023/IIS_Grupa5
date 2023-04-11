@@ -87,4 +87,23 @@ public class Rectangle extends Shape{
 				width, height);
 		
 	}
+
+	@Override
+	public void moveTo(int x, int y) {
+		upperLeftPoint.moveTo(x, y);		
+	}
+
+	@Override
+	public void moveBy(int byX, int byY) {
+		upperLeftPoint.moveBy(byX, byY);	
+	}
+	
+	@Override
+	public int compareTo(Object obj) {
+		if(obj instanceof Rectangle) {
+			Rectangle shapeToCompare = (Rectangle)obj;
+			return this.area() - shapeToCompare.area();
+		}
+		return 0;
+	}
 }
