@@ -103,6 +103,7 @@ public class Test {
 		System.out.println(point1 == p3);  //poredjenje po referenci
 		System.out.println(point1.equals(p3)); //poredjenje po vrednosti
 		
+		//Testiranje commita
 	}
 
 }
