@@ -24,6 +24,11 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class FrmTest extends JFrame {
 
@@ -33,6 +38,7 @@ public class FrmTest extends JFrame {
 	private JLabel lblCrvena;
 	private JLabel lblPlava;
 	private JLabel lblZuta;
+	private JTextField txtUnosBoje;
 	
 	/**
 	 * Launch the application.
@@ -68,7 +74,7 @@ public class FrmTest extends JFrame {
 		GridBagLayout gbl_pnlCenter = new GridBagLayout();
 		gbl_pnlCenter.columnWidths = new int[]{0, 0, 0, 0};
 		gbl_pnlCenter.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_pnlCenter.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_pnlCenter.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_pnlCenter.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		pnlCenter.setLayout(gbl_pnlCenter);
 		
@@ -91,6 +97,7 @@ public class FrmTest extends JFrame {
 		
 		lblCrvena = new JLabel("Crvena");
 		GridBagConstraints gbc_lblCrvena = new GridBagConstraints();
+		gbc_lblCrvena.anchor = GridBagConstraints.EAST;
 		gbc_lblCrvena.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCrvena.gridx = 1;
 		gbc_lblCrvena.gridy = 0;
@@ -106,6 +113,24 @@ public class FrmTest extends JFrame {
 				dlm.addElement(lblPlava.getText());
 			}
 		});
+		
+		txtUnosBoje = new JTextField();
+		txtUnosBoje.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					dlm.addElement(txtUnosBoje.getText());
+					txtUnosBoje.setText(null);
+				}
+			}
+		});
+		GridBagConstraints gbc_txtUnosBoje = new GridBagConstraints();
+		gbc_txtUnosBoje.insets = new Insets(0, 0, 5, 0);
+		gbc_txtUnosBoje.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtUnosBoje.gridx = 2;
+		gbc_txtUnosBoje.gridy = 0;
+		pnlCenter.add(txtUnosBoje, gbc_txtUnosBoje);
+		txtUnosBoje.setColumns(10);
 		buttonGroup.add(tglbtnPlava);
 		GridBagConstraints gbc_tglbtnPlava = new GridBagConstraints();
 		gbc_tglbtnPlava.insets = new Insets(0, 0, 5, 5);
@@ -144,6 +169,20 @@ public class FrmTest extends JFrame {
 		gbc_lblZuta.gridy = 2;
 		pnlCenter.add(lblZuta, gbc_lblZuta);
 		
+		JComboBox cmbDodajBoju = new JComboBox();
+		cmbDodajBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dlm.addElement(cmbDodajBoju.getSelectedItem().toString());
+			}
+		});
+		cmbDodajBoju.setModel(new DefaultComboBoxModel(new String[] {"Zelena", "Narandzasta", "Ljubicasta"}));
+		GridBagConstraints gbc_cmbDodajBoju = new GridBagConstraints();
+		gbc_cmbDodajBoju.insets = new Insets(0, 0, 0, 5);
+		gbc_cmbDodajBoju.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cmbDodajBoju.gridx = 0;
+		gbc_cmbDodajBoju.gridy = 3;
+		pnlCenter.add(cmbDodajBoju, gbc_cmbDodajBoju);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -175,6 +214,49 @@ public class FrmTest extends JFrame {
 			}
 		});
 		pnlSouth.add(btnKlik);
+		
+		JButton btnDodajBoju = new JButton("Dodaj boju");
+		btnDodajBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DlgTest dlg = new DlgTest();
+				dlg.setVisible(true);
+				
+				if(dlg.isOk() == true) {
+					// ako je korisnik potvrdio unos u okviru dijaloga
+					dlm.addElement(dlg.getTxtRed().getText() + " " + 
+									dlg.getTxtGreen().getText() + " " + 
+									dlg.getTxtBlue().getText());
+				}
+			}
+		});
+		pnlSouth.add(btnDodajBoju);
+		
+		JButton btnIzmeniBoju = new JButton("Izmeni boju");
+		btnIzmeniBoju.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DlgTest dlg = new DlgTest();
+				try {
+				String [] splits = dlm.getElementAt(lstBoje.getSelectedIndex()).toString().split(" ");
+				dlg.getTxtRed().setText(splits[0]);
+				dlg.getTxtGreen().setText(splits[1]);
+				dlg.getTxtBlue().setText(splits[2]);
+				dlg.setVisible(true);
+				
+				if(dlg.isOk() == true) {
+					dlm.removeElementAt(lstBoje.getSelectedIndex());
+					dlm.addElement(dlg.getTxtRed().getText() + " " + 
+									dlg.getTxtGreen().getText() + " " + 
+									dlg.getTxtBlue().getText());
+				}
+				}
+				catch (Exception exc) {
+					JOptionPane.showMessageDialog(null, "Prosledi adekvatnu vrednost!", 
+					"Upozorenje!!", JOptionPane.WARNING_MESSAGE);
+				}
+			
+			}
+		});
+		pnlSouth.add(btnIzmeniBoju);
 	}
 
 }
